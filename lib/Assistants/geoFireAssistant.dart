@@ -6,15 +6,15 @@ class GeoFireAssistant
 
   static void removeDriverFromList(String key)
   {
-    int index = nearByAvailableDriverslist.indexWhere((element) => element.key == key);
-    nearByAvailableDriverslist.removeAt(index);
+    int index = nearByAvailableDriverslist!.indexWhere((element) => element.key == key);
+    nearByAvailableDriverslist!.removeAt(index);
   }
 
   static void updateDriverNearbyLocation(NearbyAvailableDrivers driver)
   {
-    int index = nearByAvailableDriverslist.indexWhere((element) => element.key == driver.key);
+    int index = nearByAvailableDriverslist!.indexWhere((element) => element.key == driver.key);
 
-    nearByAvailableDriverslist[index].latitude = driver.latitude;
-    nearByAvailableDriverslist[index].longitude = driver.longitude;
+    nearByAvailableDriverslist![index].latitude = driver.latitude;
+    nearByAvailableDriverslist![index].longitude = driver.longitude;
   }
 }

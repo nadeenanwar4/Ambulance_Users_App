@@ -66,7 +66,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
 
   late BitmapDescriptor nearByIcon;
 
-  late List<NearbyAvailableDrivers> availableDrivers;
+  List<NearbyAvailableDrivers>?availableDrivers;
 
   String state = "normal";
 
@@ -681,8 +681,10 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
                                 state = "requesting";
                               });
                               displayRequestRideContainer();
-                              availableDrivers = GeoFireAssistant.nearByAvailableDriverslist;
                               searchNearestDriver();
+                              availableDrivers = GeoFireAssistant.nearByAvailableDriverslist;
+
+
                             },
                           child: Padding(
                             padding: EdgeInsets.all(18.0),
@@ -928,7 +930,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
             nearbyAvailableDrivers.key = map['key'];
             nearbyAvailableDrivers.latitude = map['latitude'];
             nearbyAvailableDrivers.longitude = map['longitude'];
-            GeoFireAssistant.nearByAvailableDriverslist.add(nearbyAvailableDrivers);
+            GeoFireAssistant.nearByAvailableDriverslist?.add(nearbyAvailableDrivers);
             if(nearbyAvailableDriverKeysLoaded == true)
             {
               updateAvailableDriversOnMap();
@@ -967,7 +969,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
     });
 
     Set<Marker> tMarkers = Set<Marker>();
-    for(NearbyAvailableDrivers driver in GeoFireAssistant.nearByAvailableDriverslist)
+    for(NearbyAvailableDrivers driver in GeoFireAssistant.nearByAvailableDriverslist!)
     {
       LatLng driverAvailablePosition = LatLng(driver.latitude, driver.longitude);
 
@@ -1010,7 +1012,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
 
   void  searchNearestDriver()
   {
-    if(availableDrivers.length == 0)
+    if(availableDrivers?.length == 0)
     {
       cancelRideRequest();
       resetApp();
@@ -1018,9 +1020,9 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
       return;
     }
 
-    var driver = availableDrivers[0];
-    notifyDriver(driver);
-    availableDrivers.removeAt(0);
+    var driver = availableDrivers?[0];
+    notifyDriver(driver!);
+    availableDrivers?.removeAt(0);
   }
 
   void notifyDriver(NearbyAvailableDrivers driver)
